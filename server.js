@@ -1,55 +1,52 @@
-const path = require('path');
-const express = require('express');
-const session = require('express-session');
-const exphbs = require('express-handlebars');
-// Initializes Sequelize with session store
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
-
-const routes = require('./controllers');
-const sequelize = require('./config/connection');
-
-
+const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 3001;
+const sequelize = require("./config/connection");
 
+// creates session
+const session = require("express-session");
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
+require("dotenv").config();
 
-
-// Sets up session and connect to our Sequelize db
 const sess = {
-    secret: 'Super secret secret',
-    // Express session will use cookies by default.
-    // We can specify options for those cookies by adding a cookies property to our session options.
-    cookie:{},
+    secret: process.env.SECRET,
+  // secret:'Super secret secret',
+    cookie: {}, 
     resave: false,
-    saveUninitialized: true,
-    // Sets up session store
+    saveUnitialized: true,
     store: new SequelizeStore({
-      db: sequelize,
-    }),
-  };
-  
-  app.use(session(sess));
-  
-  const hbs = exphbs.create({ helpers:{
-    format_date: date => {
-      return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-    }
-    }
- });
-  
-  app.engine('handlebars', hbs.engine);
-  app.set('view engine', 'handlebars');
-  
+        db: sequelize,
+        // checks for session expiration every 15 minutes
+        checkExpirationInterval: 15 * 60 * 1000,
+        // session expires in 24 hours
+        expiration: 24 * 60 * 60 * 1000 
+    })
+};
+
+app.use(session(sess));
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: true }));
+
+// uses public folder
+const path = require("path");
+app.use(express.static(path.join(__dirname, "public")));
+
+// sets handlebars as template engine
+const exphbs = require("express-handlebars");
+const helpers = require("./utils/helpers");
+const hbs = exphbs.create({ helpers });
+
+app.engine("handlebars", hbs.engine);
+app.set("view engine", "handlebars");
+
+// turn on routes
+const routes =  require("./controllers");
 app.use(routes);
 
+// turn on connection to db and server 
+const PORT = process.env.PORT || 3001;
 sequelize.sync({ force: false }).then(() => {
-    app.listen(PORT, () =>
-      console.log(
+    app.listen(PORT, () => console.log(
         `\nServer running on port ${PORT}. Visit http://localhost:${PORT} and create an account!`
-      )
-    );
-  });
+      ))
+});
