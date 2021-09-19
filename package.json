@@ -12,11 +12,12 @@
     "express-session": "^1.17.2",
     "mysql2": "^2.3.0",
     "nodemon": "^2.0.12",
-    "sequelize": "^6.6.5",
+    "sequelize": "^6.6.5"
+  },  
     "engines": {
       "node": "v14.17.3"
-    }
-  },
+    },
+  
   
   "devDependencies": {},
   "scripts": {
