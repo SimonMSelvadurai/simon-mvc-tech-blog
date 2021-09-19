@@ -5,10 +5,14 @@ const path = require("path");
 const exphbs = require("express-handlebars");
 const helpers = require("./utils/helpers");
 const routes =  require("./controllers");
+
+
+
 // creates session
 const session = require("express-session");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
-require("dotenv").config();
+//require("dotenv").config();
+const hbs = exphbs.create({ helpers });
 
 const sess = {
     secret: process.env.SECRET,
@@ -25,6 +29,12 @@ const sess = {
     })
 };
 
+
+// sets handlebars as template engine
+
+app.engine("handlebars", hbs.engine);
+app.set("view engine", "handlebars");
+
 app.use(session(sess));
 
 app.use(express.json());
@@ -33,12 +43,6 @@ app.use(express.urlencoded({ extended: true }));
 // uses public folder
 app.use(express.static(path.join(__dirname, "public")));
 
-// sets handlebars as template engine
-
-const hbs = exphbs.create({ helpers });
-
-app.engine("handlebars", hbs.engine);
-app.set("view engine", "handlebars");
 
 // turn on routes
 
@@ -46,6 +50,7 @@ app.use(routes);
 
 // turn on connection to db and server 
 const PORT = process.env.PORT || 3001;
+
 sequelize.sync({ force: false }).then(() => {
     app.listen(PORT, () => console.log(
         `\nServer running on port ${PORT}. Visit http://localhost:${PORT} and create an account!`
