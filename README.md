@@ -1,5 +1,4 @@
-# MVC_Tech-blog
-This CMS-style blog site similar to a WordPress site, where developers can publish their blog posts and comment on other developers’ posts as well.
+
 
 
 
@@ -20,6 +19,7 @@ This CMS-style blog site similar to a WordPress site, where developers can publi
 ![Google Chrome](https://img.shields.io/badge/Google%20Chrome-4285F4?style=for-the-badge&logo=GoogleChrome&logoColor=white)
 
 
+# MVC_Tech-blog
 
 
 # Table of Contents
@@ -32,20 +32,15 @@ This CMS-style blog site similar to a WordPress site, where developers can publi
 - [Contribution](#contribution)
 - [Questions](#questions)
 
-
-
-
-
 # Description :
 
-This application created using mysql,express js
-This project is all about back end for an e-commerce site using Express.js, Sequelize to interact with a MySQL database.
+This CMS-style blog site similar to a WordPress site, where developers can publish their blog posts and comment on other developers’ posts as well.
 
 ## Deployed Application :
 
-[E-Commerce Application Source code](https://github.com/SimonMSelvadurai/simon-mvc-tech-blog)
+[MVC Tech blog Source code](https://github.com/SimonMSelvadurai/simon-mvc-tech-blog)
 
-
+[MVC Tech blog APP](https://simon-mvc-tech-blog.herokuapp.com/)
 
 # User Story
 
